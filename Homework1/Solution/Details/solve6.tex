@@ -1,0 +1,22 @@
+\begin{solution}
+    猜想$T(n)=\Theta(n)$，下用归纳法证明.\\
+    当$n=1$时，$T(1)=\Theta(1)$显然成立；\\
+    若$T(n)=\Theta(n)$对$n<k$成立，设$c_1n \le T(n) \le c_2n$\\
+    (a) $T(n)=O(n)$
+    \begin{align*}
+        T(n) = & \frac{(n-2)T(n-1)+2}{n}\\
+        \le & c_2n - 3c_2 + 2 + \frac{2}{n}\\
+        \le & c_2n - 3c_2 + 4\\
+        \le & c_2n
+    \end{align*}
+    其中限定：$c_2 \ge \frac{4}{3}$\\
+    (b) $T(n)=\Omega(n)$
+    \begin{align*}
+        T(n) = & \frac{(n-2)T(n-1)+2}{n}\\
+        \ge & c_1n - 3c_1 + 2 + \frac{2}{n}\\
+        \ge & c_1n - 3c_1 + 2\\
+        \ge & c_1n
+    \end{align*}
+    其中限定：$c_1 \le \frac{2}{3}$\\
+    综上可归纳得到$T(n)=\Theta(n)$.
+\end{solution}

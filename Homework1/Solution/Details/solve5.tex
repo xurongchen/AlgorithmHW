@@ -1,0 +1,12 @@
+\begin{solution}
+    令$x=\lg n$，则:
+    $$T(2^{x}) = 2T(2^{\frac x 2}) + 1$$
+    再令$S(x)=T(2^{x})$，则：
+    $$S(x) = 2S(\frac x 2) + 1$$
+    根据master method，存在$\epsilon=\frac 1 2$：
+    $$1 = O(x^{\frac 1 2}) = O(x^{log_2{2}-\epsilon})$$
+    因此:
+    $$S(x)=\Theta(x^{log_2{2}}) = \Theta(x)$$
+    $$T(2^{x})=\Theta(x)$$
+    $$T(n)=\Theta(\lg n)$$
+\end{solution}
