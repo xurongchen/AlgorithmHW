@@ -1,0 +1,17 @@
+\begin{proof}
+    假设存在$f(n) \in \Theta(g(n)) \wedge f(n) \in o(g(n))$.\\
+    
+    由$f(n) \in \Theta(g(n))$得到：
+    $$\exists c_1,n_1 \in \mathbb R^+, s.t.~
+    \forall n \ge n_1, c_1g(n) \le f(n)$$
+
+    由$f(n) \in o(g(n))$得到：
+    $$\forall c \in \mathbb R^+, \exists n_2 \in \mathbb R^+, s.t.~
+    \forall n \ge n_2, f(n) < cg(n) $$
+
+    于是$\forall c \in \mathbb R^+,\exists c_1,n_1,n_2 \in \mathbb R^+$满足：
+    $$\forall n \ge \max(n_1,n_2), c_1g(n) \le f(n) < cg(n)$$
+    
+    故$c_1<c$应对所有$c>0$成立，显然$c=c_1$是一个反例。所以假设错误，即
+    $\Theta(g(n)) \cap o(g(n)) = \varnothing$.
+\end{proof}
