@@ -1,0 +1,7 @@
+\begin{proof}
+    因为$f(n) \ge 0 \wedge g(n) \ge 0$，所以有：
+    $$\frac{1}{2}(f(n)+g(n)) \le \max(f(n),g(n)) \le f(n)+g(n)$$
+    即$\exists c_1 = \frac{1}{2},c_2=1,n_0=1$满足：
+    $$\forall n \ge n_0, c_1(f(n)+g(n)) \le \max(f(n),g(n)) \le c_2(f(n)+g(n))$$
+    故$\max(f(n),g(n))=\Theta(f(n)+g(n))$.
+\end{proof}
