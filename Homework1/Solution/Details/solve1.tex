@@ -1,0 +1,13 @@
+\begin{proof}
+    任取$f(n)\in \Theta(n^2)$有：
+    $$\exists c_1,c_2,n_0 \in \mathbb R^+, s.t.~
+    \forall n \ge n_0, c_1n^2 \le f(n) \le c_2n^2 $$
+    故：
+    $$2n + c_1n^2 \le 2n + f(n) \le 2n + c_2n^2 $$
+    不妨设定$c'_1=c_1,c'_2=2c_2$.如此以下两条满足：
+    $$\forall n>0, c'_1n^2 = c_1n^2 < 2n + c_1n^2$$
+    $$\forall n>=\frac{2}{c_2},2n + c_2n^2 \le 2c_2n^2 = c'_2n^2$$
+    于是，找到一组$c'_1=c_1,c'_2=2c_2,n'_0=\max(n_0,\frac{2}{c_2})$满足：
+    $$\forall n \ge n'_0, c'_1n^2 \le 2n + f(n) \le c'_2n^2 $$
+    因此$2n + \Theta(n^2)= \Theta(n^2)$得证.
+\end{proof}
