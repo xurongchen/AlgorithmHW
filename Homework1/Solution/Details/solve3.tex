@@ -1,23 +1,23 @@
 \begin{proof}
     欲证存在$f(n)$满足：
     $$f(n) \in O(g(n)) \wedge f(n) \notin \Theta(g(n)) \wedge f(n) \notin o(g(n))$$
-    构造$f(n)=g(n)\sin n$.\\
+    构造$f(n) = g(n) \cdot (1 + \sin n)$.\\
 
     (a)显然：
-    $$\forall n \ge 1, f(n) = g(n)\sin n \le g(n)$$
+    $$\forall n \ge 1, f(n) = g(n) \cdot (1 + \sin n) \le 2g(n)$$
     故$f(n) \in O(g(n))$.\\
 
     (b)假设$f(n) \in \Theta(g(n))$，则必然存在$c_1>0,n_1>0$满足：
-    $$\forall n \ge n_1, c_1g(n) \le f(n) = g(n) \sin n $$
+    $$\forall n \ge n_1, c_1g(n) \le f(n) = f(n) = g(n) \cdot (1 + \sin n) $$
     化简：
-    $$\forall n \ge n1, c_1 \le \sin n$$
-    当$n=2k\pi(k \in \mathbb Z^+)$时，$c_1$无正数解，产生矛盾。\\
+    $$\forall n \ge n1, c_1 \le 1 + \sin n$$
+    显然，当$n= - \frac{\pi}{2} + 2k\pi(k \in \mathbb Z^+)$时，$c_1$无正数解，产生矛盾。\\
     故$f(n) \notin \Theta(g(n))$.\\
 
     (c)假设$f(n) \in o(g(n))$，则要求对任意$c_2>0$，存在$n_2>0$满足：
-    $$\forall n \ge n_2, f(n) = g(n)\sin n < c_2g(n)$$
-    限定$c_2=\frac{1}{2}$，则要求$\forall n \ge n_2, \sin n < \frac{1}{2}$.显然，当
-    $n=\frac{\pi}{6}+2k\pi(k \in \mathbb Z^+)$时产生矛盾。\\
+    $$\forall n \ge n_2, f(n) = g(n) \cdot (1 + \sin n) < c_2g(n)$$
+    限定$c_2=1$，则要求$\forall n \ge n_2, \sin n < 0$.\\
+    显然，当$n=\frac{\pi}{2} + 2k\pi(k \in \mathbb Z^+)$时产生矛盾。\\
     故$f(n) \notin o(g(n))$.\\
     \bigskip
     综上：$f(n) \in O(g(n)) \wedge f(n) \notin \Theta(g(n)) \wedge f(n) \notin o(g(n))$\\
