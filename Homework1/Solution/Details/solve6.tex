@@ -1,6 +1,6 @@
 \begin{solution}
-    因为$nT(n)=(n-2)T(n-1)+2$\\
-    所以$nT(n)=(n-1)T(n-1)+2-T(n-1)$\\
+    已知$nT(n)=(n-2)T(n-1)+2$得：
+    $$nT(n)=(n-1)T(n-1)+2-T(n-1)$$
     两边分别以1为步长自n向下求和：
     \begin{displaymath}
         \sum_{i = n - \lceil n - 1 \rceil +1}^{n} iT(i) = 
@@ -20,19 +20,19 @@
     \begin{align*}
         T(n)=\frac{n-2}{n}T(n-1)+\frac{2}{n}
     \end{align*}
-    又已知$\forall n>0,T(n) \le 2$成立，所以$\forall 1 < n \le 2$有：
+    现又知$\forall n>0,T(n) \le 2$成立，所以$\forall 1 < n \le 2$有：
     \begin{align*}
         T(n) \le& ~2 \cdot\frac{n-2}{n}+ \frac{2}{n}\\
              =& ~2 - \frac{2}{n}\\
              \le& ~1
     \end{align*}
-    下面证明：若$T(k)\le 1$，则$T(k+1) \le 1$.\\
+    下面证明：若$T(k)\le 1$，则$T(k+1) \le 1$.
     \begin{align*}
         T(n) =& ~\frac{n-2}{n}T(n-1)+\frac{2}{n}\\
         \le& ~\frac{n-2}{n}+\frac{2}{n}\\
         =& ~1
     \end{align*}
-    于是归纳得到：$\forall n>1,T(n)\le 1$.\\
+    于是可归纳得到：$\forall n>1,T(n)\le 1$.\\
     综合$T(n)$的约束：
     \begin{align*}
        T(n) \le \left\{
@@ -42,12 +42,12 @@
         \end{aligned}
        \right.
     \end{align*}
-    根据已知$nT(n)$的式子可继续推导：
+    对$nT(n)$的式子可继续推导：
     \begin{align*}
         nT(n) =&~ (n - \lceil n - 1 \rceil)T(n - \lceil n - 1 \rceil) + 2 \lceil n - 1 \rceil - \sum_{i = n - \lceil n - 1 \rceil}^{n - 1} T(i)\\
         \ge&~ 2 \lceil n - 1 \rceil - \sum_{i = n - \lceil n - 1 \rceil}^{n - 1} T(i)\\
     \end{align*}
-    由$T(n)$的约束，知以下两式：
+    由$T(n)$的约束，可得以下两式：
     $$T(n-\lceil n - 1 \rceil) \le 2$$
     $$\forall k \ge n-\lceil n - 1 \rceil+1, T(k) \le 1$$
     进而：
