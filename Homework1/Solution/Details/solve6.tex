@@ -10,7 +10,7 @@
     \begin{displaymath}
         nT(n) = (n - \lceil n - 1 \rceil)T(n - \lceil n - 1 \rceil) + 2 \lceil n - 1 \rceil - \sum_{i = n - \lceil n - 1 \rceil}^{n - 1} T(i)
     \end{displaymath}
-    由于$n - \lceil n - 1 \rceil \le 1$且$\forall x, T(x)>=0$故：
+    由于$n - \lceil n - 1 \rceil \le 1$且$\forall x>0, T(x) \ge 0$故：
     \begin{displaymath}
         (n - \lceil n - 1 \rceil)T(n - \lceil n - 1 \rceil) - \sum_{i = n - \lceil n - 1 \rceil}^{n - 1} T(i) \le 0
     \end{displaymath}   
