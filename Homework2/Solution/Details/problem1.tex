@@ -1,0 +1,20 @@
+Professor Armstrong suggests the following procedure for generating a 
+uniform random permutation:
+\newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+\begin{codebox}
+    \Procname{$\proc{Permute-By-Cyclic}(A)$}
+    \li $\id{n} = A.length$
+    \li let $B[1..n]$ be a new array
+    \li $\id{offset} = \proc{Random}(1,n)$
+    \li \For $i = 1$ \To $n$
+    \li     \Doo $\id{dest} = \id{i} + \id{offset}$
+    \li     \If $\id{dest}$ > $\id{n}$
+    \li         \Doo $\id{dest} = \id{dest} - \id{n}$
+                \End
+    \li         $B[\id{dest}] = A[\id{i}]$
+            \End
+    \li \Return $B$
+\end{codebox}
+Show that each element $A[i]$ has a $1/n$ probability of winding up in any particular 
+position in $B$. Then show that Professor Armstrong is mistaken by showing that the 
+resulting permutation is not uniformly random.
