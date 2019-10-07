@@ -1,2 +1,16 @@
 \begin{proof}
+    所有元素均不同概率：
+    \begin{align*}
+        P_u =& \prod_{i=0}^{n-1} (1-\frac{i}{n^3})\\
+            >&~(1-\frac{1}{n^2})^n\\
+            =&~C_n^0 - C_n^1\frac{1}{n^2} + C_n^2(\frac{1}{n^2})^2 - C_n^3(\frac{1}{n^2})^3 + \cdots\\
+            =&~1-\frac{1}{n} + C_n^2(\frac{1}{n^2})^2 - C_n^3(\frac{1}{n^2})^3 + \cdots\\
+    \end{align*}
+    下证从第三项开始，所有加项都大于紧跟的减项：\\
+    \begin{align*}
+        C_n^{2k}&(\frac{1}{n^2})^{2k} - C_n^{2k+1}(\frac{1}{n^2})^{2k+1}\\
+        &= \frac{n!}{(2k)!(n-2k-1)!n^{4k}}*(\frac{1}{n-2k}-\frac{1}{n^2(2k+1)})\\
+        &> 0
+    \end{align*}
+    故$P_u>~1-\frac{1}{n}$
 \end{proof}
