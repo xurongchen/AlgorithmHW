@@ -93,6 +93,10 @@ proofname = \heiti{证明} %% set proof name
   \end{center}
   \medskip
   \textbf{3.3 随机一百万个平面点生成并进行求解实验}\\
+  随机生成的点人为要求其服从均匀分布，由于点的横纵坐标采用浮点数表示，所以希望得到在某一上下界内均匀
+  分布的随即浮点数。.Net Core中$Rand$类提供了$NextDouble()$的方法随机出(0,1)范围内均匀分布的浮点
+  数，故采用如下方式得到(LowerBound,UpperBound)范围内均匀分布的浮点数：
+  $$NextDouble()*(UpperBound-LowerBound)+LowerBound$$\\
   \medskip
   \textbf{3.4 $\Theta(n^2)$和$\Theta(n\lg n)$算法在不同规模随机数据下的对比实验}
   \\
