@@ -1,0 +1,9 @@
+As stated, in dynamic programming we first solve the subproblems and then 
+choose which of them  to use in an optimal solution to the problem. 
+Professor Capulet claims that we do not always need to solve all the subproblems 
+in order to find an optimal solution. She suggests that we can find an optimal 
+solution to the matrix-chain multiplication problem by always choosing the 
+matrix $A_k$ at which to split the subproduct $A_iA_{i+1}\cdots A_j$
+(by selecting $k$ to minimize the quantity $p_{i-1}p_kp_j$) before solving the 
+subproblems. Find an instance of the matrix-chain multiplica-tion problem 
+for which this greedy approach yields a suboptimal solution.

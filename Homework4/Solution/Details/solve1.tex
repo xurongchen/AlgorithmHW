@@ -1,0 +1,69 @@
+\begin{solution}改进后的算法如\proc{Memoized-Cut-Rod-Solution}所示。\\
+    和原先的算法相比：主要区别在于：\\
+    (1)增加了$s$数组用于记录每个长度最优切割时的切割棒长度;\\
+    (2)~\proc{Memoized-Cut-Rod-Solution}返回二个内容，第一个结果是最优解的值，第二个结果是一个List，
+    包含了切割后所有子棒的长度;\\
+    (3)增加了\proc{Get-Solution}方法递归地计算最优解的情况下所有子棒长度的构成。\\
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    \medskip
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{380pt}
+            \begin{codebox}
+                \Procname{$\proc{Memoized-Cut-Rod-Solution}(p,n)$}
+                \li let $r[0..n]$ be a new array
+                \li let $s[0..n]$ be a new array
+                \li \For $i = 0$ \To $n$
+                \li     \Doo $r[i] = - \infty$
+                        \End
+                \li $\id{value} = \proc{Memoized-Cut-Rod-Solution-Aux}(p,n,r,s)$
+                \li let $\id{solution}$ be a new empty list
+                \li $\proc{Get-Solution}(p,s,\id{solution})$
+                \li \Return \id{value},\id{solution}
+            \end{codebox}
+        \end{minipage}
+        }\\ 
+        \medskip
+        \resizebox{\linewidth}{!}{ 
+            \begin{minipage}{380pt}
+            \begin{codebox}
+                \Procname{$\proc{Memoized-Cut-Rod-Solution-Aux}(p,n,r,s)$}
+                \li \If $r[n] \ge 0$
+                    \Doo
+                \li \Return $r[n]$
+                    \End
+                \li \If $n == 0$
+                \li \Doo $q = 0$
+                    \End
+                \li \Else 
+                    \Doo
+                \li     $q = -\infty$
+                \li         \For $i = 1$ \To $n$
+                        \Doo 
+                \li         $t = p[i] + \proc{Memoized-Cut-Rod-Solution-Aux}(p,n-i,r,s)$
+                \li         \If $q < t$
+                            \Doo 
+                \li             $q = t$
+                \li             $s[n] = i$
+                            \End
+                        \End
+                    \End
+                \li $r[n] == q$
+                \li \Return $q$
+            \end{codebox}
+        \end{minipage}
+        }\\ 
+        \resizebox{\linewidth}{!}{ 
+            \begin{minipage}{380pt}
+            \begin{codebox}
+                \Procname{$\proc{Get-Solution}(n,s,\id{solution})$}
+                \li \If $n == 0$ 
+                    \Doo
+                \li     \Return
+                    \End
+                \li $\id{solution}.Add(s[n])$
+                \li $\proc{Get-Solution}(n-s[n],s,\id{solution})$
+                \li \Return
+            \end{codebox}
+        \end{minipage}
+    }\\ 
+\end{solution}
