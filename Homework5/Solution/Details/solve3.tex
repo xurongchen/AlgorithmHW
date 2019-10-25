@@ -1,0 +1,97 @@
+\begin{solution}\textit{算法描述：}算法$\proc{Huffman-Ternary}$如下伪代码所示，在此之中$\proc{Extract-Min}$与二进制的
+    哈夫曼编码算法原有实现一致，即从集合中遍历找到出现频率最小的，删除这个元素并返回；$\proc{Insert}$
+    亦与原有实现一致，即向集合中插入一个元素。
+
+    算法的大致思路是：最初如果总元素个数为偶数个，则从中选两个结点合并（减少一个结点）。之后元素的个数一定为奇数个，
+    每次选择三个结点合并（减少两个结点），如此往复制止最后只剩一个结点，并返回这个结点。
+
+    算法的输入$C$是点的集合，其中每个点包括三个儿子结点$childx$、$childy$、$childz$以及结点的频率
+    $freq$。算法的返回值是最优解的三进制哈夫曼树。
+
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    \begin{codebox}
+        \Procname{$\proc{Huffman-Ternary}(C)$}
+        \li $n = |C|$
+        \li $Q = C$
+        \li \If $n \% 2 == 0$ \Doo
+        \li     allocate a new node $m$
+        \li     $ m.childx = x = \proc{Extract-Min}(Q)$
+        \li     $ m.childy = y = \proc{Extract-Min}(Q)$
+        \li     $ m.childz = null$       
+        \li     $ m.freq = x.freq + y.freq$
+        \li     $ \proc{Insert}(Q,m)$ 
+        \li     $ n = n - 1$\End
+        \li \While $n > 1$\Doo
+        \li     \If $n \% 2 == 0$ \Doo
+        \li         allocate a new node $m$
+        \li         $ m.childx = x = \proc{Extract-Min}(Q)$
+        \li         $ m.childy = y = \proc{Extract-Min}(Q)$
+        \li         $ m.childz = z = \proc{Extract-Min}(Q)$
+        \li         $ m.freq = x.freq + y.freq + z.freq$
+        \li         $ \proc{Insert}(Q,m)$ 
+        \li         $ n = n - 2$ \End \End
+        \li \Return $\proc{Extract-Min}(Q)$
+    \end{codebox}
+
+    \textit{最优解的证明：}
+    
+    $\proc{Huffman-Ternary}$贪心选择性的证明：
+
+    欲证：字母表$C$，对于$c \in C$都有频率$c.freq$。若$x$、$y$、$z$是$C$中出现频率最小的
+    三个字符，那么存在一个最优的三进制前缀码，$x$、$y$、$z$的码字长度相同，且只有最后一位不同。
+    
+    假定字母表$C$集合的大小是奇数，如果原来的字母表集合大小为偶数，则人为额外增加一个字母
+    $\epsilon$，其出现频率$\epsilon.freq=0$。如果增加$\epsilon$之前的树为$T$，之后
+    的树为$T'$，显然满足使得原花费$B(T)$最小的一组深度$d_T(c), c \in C$，
+    也能使得$B(T') = \sum c.freq \cdot d_T(c) + 0 \cdot d_T(\epsilon)$最小，反之亦然。
+  
+    显然，在字母表集合为奇数的情况下，按照算法构造的三叉树的非叶子结点均包含三个儿子结点。
+    假设$T$是$C$的一个最优三进制哈夫曼树，其中$a$，$b$，$c$是$T$中深度最深的三个兄弟叶子结点，
+    希望将$x$、$y$、$z$与$a$，$b$，$c$交换后，得到的$T'$仍然是$C$的一个最优三进制哈夫曼树。
+
+    不是一般性地假设$x \le y \le z$，$a \le b \le c$，首先交换结点$x$和$a$，得到树$T_1$，
+    $T$和$T_1$的代价差$B(T)-B(T_1)$有：
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{380pt}
+            \begin{align*}
+                B(T)-B(T_1) &= \sum_{c\in C}c.freq \cdot d_T(c) - \sum_{c\in C}c.freq \cdot d_{T_1}(c)\\
+                            &= x.freq \cdot d_T(x) + a.freq \cdot d_T(a) - x.freq \cdot d_T(x) - a.freq \cdot d_T(a)\\
+                            &= (a.freq - x.freq) \cdot (d_T(a) - d_T(x))\\
+                            &\ge 0
+            \end{align*}
+        \end{minipage}
+    }
+    ~\\
+    同理，在$T_1$的基础上，再交换$y$和$b$，得到树$T_2$，则$T_1$和$T_2$的代价差亦有
+    $B(T_1)-B(T_2)\ge 0$；在$T_2$的基础上，再交换$z$和$c$，得到树$T'$，则$T_2$和
+    $T'$的代价差亦有$B(T_2)-B(T')\ge 0$。
+
+    于是$B(T)-B(T')\ge 0$，显然交换后的解不会比原来解更坏，由于原来的解$T$是最优的，所以$T'$
+    亦是最优的。
+    
+    $\proc{Huffman-Ternary}$最优子结构的证明：
+
+    欲证：若$T'$是字母表$C'$的一个最优的三进制哈夫曼树，若将$T'$中的一个叶子结点$m'$，变为
+    包含三个叶子结点$x$、$y$、$z$的中间结点$m$，要求
+    $m.freq = m'.freq = x.freq + y.freq + z.freq$，且$x$、$y$、$z$的出现频率在新树$T$中最低，
+    得到新字母表$C=C'-\{m'\}\cup\{x,y,z\}$对应的三进制哈夫曼树$T$也是最优的。
+
+    尝试使用$B(T')$表示$B(T)$：
+    \begin{align*}
+        B(T)    &= B(T') + 1 \cdot m.freq\\
+                &= B(T') + x.freq + y.freq + z.freq
+    \end{align*}
+    等价地：
+    $$B(T') = B(T) - x.freq - y.freq - z.freq$$
+    显然，如果$T$不是最优的，由贪心选择性结论，一定存在$T''$，包含$x$、$y$、$z$作为兄弟
+    叶子结点，如果将$x$、$y$、$z$的父结点更换回$m'$得到树$T'''$，此时有：
+    \begin{align*}
+        B(T')   &= B(T) - x.freq - y.freq - z.freq \\
+                &< B(T'') - x.freq - y.freq - z.freq \\
+                &= B(T''')
+    \end{align*}
+    如此说明$T'$并不是字母表$C'$的一个最优的三进制哈夫曼树，产生矛盾，即$T$是字母表$C$
+    最优的三进制哈夫曼树。
+
+    综合贪心选择性和最优子结构性质，$\proc{Huffman-Ternary}$得证。
+\end{solution}

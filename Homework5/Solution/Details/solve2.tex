@@ -1,0 +1,35 @@
+\begin{solution}
+    算法大致思路：按照所有物品的单位重量价值权重即$\frac{value}{weight}$进行降序
+    排序，并初始化一个空的集合$solution$，然后对于排序后的每个元素进行访问，如果当前
+    剩余大小$size$等于0，则结束访问并返回最优解集合$solution$；否则，如果当前物品的重量
+    $goods[i].weight$小于等于背包剩余容量$size$，则将该物品全部加入并更新当前总价值$s$和
+    背包剩余容量$size$，否则，加入该物品直至背包全满并更新当前总价值$s$并设置背包剩余容量$size$为0。
+    
+    算法$\proc{Fractional-Knapsack}$如下所示，其中输入$goods$是物品序列，每个物品包括三个属性
+    $id$（物品编号）、$weight$（物品重量）和$value$（物品价值），输入$size$是背包空间；算法返回值有两个，第一个返回值是$s$是解的最大价值，
+    第二个返回值$solution$是解的物品拿取了策略，包括若干个二元组，每个二元组第一个元素是选取的物品编号，
+    第二个元素是选取该物品的重量。
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    % \resizebox{\linewidth}{!}{ 
+    %     \begin{minipage}{320pt}
+            \begin{codebox}
+                \Procname{$\proc{Fractional-Knapsack}(goods,size)$}
+                \li Sort the $goods$ decreasely by each $\frac{value}{weight}$
+                \li Initialize $solution$ with empty list
+                \li $s = 0$
+                \li \For $i = 1$ \To $goods.count$ \Doo
+                \li     \If $size == 0$ \Doo
+                \li         \textbf{break}\End
+                \li         \If $size>goods[i].weight$ \Doo
+                \li             $solution.Add(\textbf{Tuble}(goods[i].id,goods[i].weight))$
+                \li             $size = size - goods[i].weight$
+                \li             $s = s + goods[i].value$
+                \li         \Else
+                \li             $solution.Add(\textbf{Tuble}(goods[i].id,size))$
+                \li             $s = s + goods[i].value * \frac{size}{goods[i].weight}$
+                \li             $size = 0$ \End \End 
+                \li \Return $s,solution$
+            \end{codebox}
+    %     \end{minipage}
+    % }
+\end{solution}
