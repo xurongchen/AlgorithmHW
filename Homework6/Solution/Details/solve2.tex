@@ -1,0 +1,69 @@
+\begin{solution}
+    定义表$T$的装载因子$\alpha(T)=\frac{T.num}{T.size}$。对于$\Phi(T)$有：
+    \begin{align*}
+        \Phi(T)=\left\{
+        \begin{array}{rcl}
+        T.size - 2\cdot T.num & & {0 \le \alpha(T) < \frac{1}{2}}\\
+        2\cdot T.num - T.size & & {\frac{1}{2} \le \alpha(T) \le 1}\\
+        \end{array} \right.
+    \end{align*}
+    令$c_i$是第$i$次操作的实际代价，$\hat{c_i}$是第$i$次操作的均摊代价，$\alpha_i$是
+    第$i$次操作的均摊因子，$size_i$是第$i$次操作后的表大小，$num_i$是第$i$次操作后的表
+    元素数目，$\Phi_i$是第$i$次操作后的势，特别地规定$num_0 = size_0 = \Phi_0 = 0$，
+    $\alpha_0 = 1$。
+
+    对于两个分界点$\frac{1}{2}$、$\frac{1}{3}$以及两个有序位置$\alpha_{i-1} > \alpha_i$，
+    一共有6种情况，排除$\alpha_{i-1}<\frac{1}{3}$的（实际可保证），剩余5种情况的
+    \proc{Table-Delete}的时间花费：
+
+    （1）若$\alpha_{i-1} > \alpha_i \ge \frac{1}{2}$：\\
+    由$num_{i-1}=num_i+1 \wedge size_i = size_{i-1}$得：
+    \begin{align*}
+        \hat{c_i} &= c_i + \Phi_i - \Phi_{i-1}\\
+        &= 1 + (2\cdot num_{i}-size_{i}) - (2 \cdot num_{i-1}-size_{i-1})\\
+        &= 1 + 2\cdot num_i -size_i - 2\cdot(num_i + 1) + size_i\\
+        &= -1
+    \end{align*}
+
+    （2）若$\alpha_{i-1} \ge \frac{1}{2} > \alpha_i \ge \frac{1}{3}$：\\
+    由$num_{i-1}=num_i+1 \wedge size_i = size_{i-1}$得：
+    \begin{align*}
+        \hat{c_i} &= c_i + \Phi_i - \Phi_{i-1}\\
+        &= 1 + (2\cdot num_{i} - size_{i}) - (size_{i-1} - 2 \cdot num_{i-1})\\
+        &= 1 + 2\cdot num_i - size_i + 2\cdot(num_i + 1) - size_i\\
+        &= 3 + 2\cdot (2\cdot num_i - size_i)
+    \end{align*}
+    根据$\alpha_i$和$\alpha_{i-1}$的约束，可得：$-2 \le 2\cdot num_i - size_i < 0$，故
+    $\hat{c_i}<3$。
+
+    （3）若$\alpha_{i-1} \ge \frac{1}{2} > \frac{1}{3} > \alpha_i$：\\
+    由$num_{i-1}=num_i+1 \wedge size_i = 2\cdot num_i \wedge size_{i-1} = 3\cdot num_i$得：
+    \begin{align*}
+        \hat{c_i} &= c_i + \Phi_i - \Phi_{i-1}\\
+        &= num_i + (2\cdot num_{i} - size_{i}) - (size_{i-1} - 2 \cdot num_{i-1})\\
+        &= num_i + 2\cdot num_i - 2\cdot num_i -  \cdot 3\cdot num_i + 2\cdot(num_i + 1)\\
+        &= 2
+    \end{align*}
+
+    （4）若$\frac{1}{2} > \alpha_{i-1} > \alpha_{i} \ge \frac{1}{3}$：\\
+    由$num_{i-1}=num_i+1 \wedge size_i = size_{i-1}$得：
+    \begin{align*}
+        \hat{c_i} &= c_i + \Phi_i - \Phi_{i-1}\\
+        &= 1 + (size_{i} - 2 \cdot num_{i}) - (size_{i-1} - 2 \cdot num_{i-1})\\
+        &= 1 + size_i - 2\cdot num_{i} - size_i + 2\cdot (num_i+1)\\
+        &= 3
+    \end{align*}
+
+    （5）若$\frac{1}{2} > \alpha_{i-1} \ge \frac{1}{3} > \alpha_i$：\\
+    由$num_{i-1}=num_i+1 \wedge size_i = 2\cdot num_i \wedge size_{i-1} = 3\cdot num_i$得：
+    \begin{align*}
+        \hat{c_i} &= c_i + \Phi_i - \Phi_{i-1}\\
+        &= num_i + (2 \cdot num_{i} - size_{i}) - (size_{i-1} - 2 \cdot num_{i-1})\\
+        &= 3\cdot num_i - size_i - size_{i-1} + 2\cdot num_{i-1}\\
+        &= 3\cdot num_i - 2\cdot num_i - 3\cdot num_i + 2\cdot(num_i+1)\\
+        &= 2
+    \end{align*}
+
+    综上，每次均摊的$\hat{c_i}$不超过3。即均摊情况下，每次\proc{Table-Delete}的时间花费
+    为$O(1)$。
+\end{solution}

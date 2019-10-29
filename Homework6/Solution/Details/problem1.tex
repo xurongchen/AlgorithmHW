@@ -1,0 +1,15 @@
+Consider the following algorithm for the problem from Section 16.5 
+of scheduling unit-time tasks with deadlines and penalties. Let all 
+$n$ time slots be initially empty, where time slot $i$ is the unit-length 
+slot of time that finishes at time $i$. We consider the tasks in order 
+of monotonically decreasing penalty. When considering task $a_j$, 
+if there exists a time slot at or before $a_j$'s deadline $dj$ that is still
+empty, assign $a_j$ to the latest such slot, filling it. If there is no 
+such slot, assign task $a_j$ to the latest of the as yet unfilled slots.
+
+\textbf{a.} Argue that this algorithm always gives an optimal answer.
+
+\textbf{b.} Use the fast disjoint-set forest presented in Section 21.3 to 
+implement the algorithm efficiently. Assume that the set of input 
+tasks has already been sorted into monotonically decreasing order by 
+penalty. Analyze the running time of your implementation.
