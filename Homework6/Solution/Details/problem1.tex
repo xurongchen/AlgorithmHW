@@ -3,7 +3,7 @@ of scheduling unit-time tasks with deadlines and penalties. Let all
 $n$ time slots be initially empty, where time slot $i$ is the unit-length 
 slot of time that finishes at time $i$. We consider the tasks in order 
 of monotonically decreasing penalty. When considering task $a_j$, 
-if there exists a time slot at or before $a_j$'s deadline $dj$ that is still
+if there exists a time slot at or before $a_j$'s deadline $d_j$ that is still
 empty, assign $a_j$ to the latest such slot, filling it. If there is no 
 such slot, assign task $a_j$ to the latest of the as yet unfilled slots.
 

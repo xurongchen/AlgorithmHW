@@ -1,2 +1,46 @@
 \begin{solution}
+\textbf{a.}
+假设所有任务集合为$S$，提前任务的最优独立集合为$A$，则延后任务集合为$S-A$。由于任务调度问题可以
+转化为拟阵问题，所以要证明算法的正确性，只需要证明算法能够达到以下的策略：按照惩罚排序后的任务序列，
+对于当前任务$a_j$，若$A\cup \{a_j\}$仍然独立，则$A = A\cup \{a_j\}$。
+
+如果对于任务$a_j$的要求结束时间$d_j$前不存在空余时间，$A\cup \{a_j\}$不独立，此时的算法操作
+符合$a_j \in S-A$；\\
+如果对于任务$a_j$的要求结束时间$d_j$前存在空余时间，$A\cup \{a_j\}$独立，此时的算法操作
+符合$a_j \in A$。若空余空间唯一，则显然只有一种策略，即为最优策略；若不唯一，假设一个最优策略是
+$a_j$放在了$b$位置，而存在$c$，满足$b < c \le d_j$仍是空余空间。对于后续某个任务$a_w$，若
+其要求结束时间$d_w \ge c$，显然亦有$d_w \ge b$，即如果$a_j$放在$b$位置是最优策略，那么放在$b$位
+置更靠后的位置亦是最优策略。所以算法选择满足条件的最后位置一定是最优的。
+
+于是上述算法可以得到最优解。
+
+\textbf{b.}
+算法过程如\proc{Schedule}所示，默认的$S$的任务的结束时间均能够在$S.size$内，否则必然无法完成，
+可直接放入延后任务集合。首先任务集合$S$按照惩罚值降序排序，并初始化结果数组。之后初始化非相交集合
+森林的数据结构（路径压缩的实现），每个结点指向的根结点表示前一个（或自身）空余时间位置。初始时，各结点指向自身。
+特别的，额外设置0号结点，若某个结点指向的根结点为0号结点，则说明这个结点之前（包括自身）不存在空余位置。
+注意，算法中的每次合并$\proc{Union}(x,y)$总是将$x$的根结点指向$y$的根结点，以保证每个等价类的代表元即
+第一个空余的时间。
+\newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+\begin{codebox}
+    \Procname{\proc{Schedule}($S$)}
+    \li Sort $S$ by $S[i].penalty$ decreasely
+    \li Initialize array $A$ with size of $S.size$
+    \li $\proc{Make-Set}(0)$
+    \li \For $x = 1$ \To $S.size$ \Doo
+    \li     $\proc{Make-Set}(x)$ \End
+    \li \For $i = 1$ \To $S.size$ \Doo
+    \li     $f = \proc{Find-Set}(S[i].d)$
+    \li     \If $f == 0$ \Doo
+    \li         $last = \proc{Find-Set}(S.size)$
+    \li         $A[last] = S[i]$
+    \li         $\proc{Union}(last,last - 1)$
+    \li     \Else 
+    \li         $A[f] = S[i]$
+    \li         $\proc{Union}(f,f - 1)$ \End \End \End
+    \li \Return $A$
+\end{codebox}
+
+算法中，排序的复杂度为$\Theta(n\log n)$，每次循环之中，\proc{Make-Set}、\proc{Find-Set}
+以及\proc{Union}的时间都是$O(1)$的。所以总体算法的复杂度是$\Theta(n\log n)$。
 \end{solution}
