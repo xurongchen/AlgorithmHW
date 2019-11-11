@@ -1,2 +1,66 @@
 \begin{solution}
-\end{solution}
+    \textbf{算法设计：}算法如\proc{Is-Semiconnected}所示。首先对原图求解强连通分量，
+    得到$G$的分量图$G^{SCC}$，显然$G^{SCC}$是一个有向无环图。于是对$G^{SCC}$进行拓扑
+    排序，得到可行序列$T$。遍历$T$，若相邻结点对在$G^{SCC}$中无边，则原图非半连通图，若所有
+    相邻结点均有边则原图为半连通图。
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    \resizebox{\linewidth}{!}{ 
+    \begin{minipage}{330pt}
+        \begin{codebox}
+            \Procname{$\proc{Is-Semiconnected}$($G$)}
+            \li $G^{SCC}(V^{SCC},E^{SCC})=\proc{Strongly-Connercted-Components}(G)$
+            \li $T = \proc{Topological-Sort}(G^{SCC})$
+            \li $node = T.first$
+            \li \While $node.next \neq$ null
+                \Doo 
+            \li \If $(node,node.next)$ not in $E^{SCC}$ 
+                \Doo
+            \li     \Return False
+                \End
+            \li     $node = node.next$
+                \End
+            \li \Return True
+        \end{codebox}
+    \end{minipage}
+    }
+
+    \textbf{证明：}由下面的引理1、引理2易得算法的正确性。
+
+    \textit{引理1：}$G$和分量图$G^{SCC}$的半连通性一致。
+
+    证明：（1）$G$半连通到$G^{SCC}$半连通的证明：要证在$G^{SCC}$中任意的点$C_u,C_v$是半连通的，即要证$G$中存在点
+    $u\in C_u$，$v\in C_v$，$u \leadsto v$或$v \leadsto u$成立。而$G$的半连通性质则说明了对于$G$中任意两点都有
+    $u \leadsto v$或$v \leadsto u$成立，因此在$G^{SCC}$中$C_u\leadsto C_v$成立。\\
+    （2）$G^{SCC}$半连通到$G$半连通的证明：对于任意的$u,v\in V$，不妨设其所在的连通分量分别为$C_u,C_v$。\\
+    \qquad $\circ$ 若$C_u = C_v$：由连通分量定义可得$u \leadsto v$。\\
+    \qquad $\circ$ 若$C_u \neq C_v$：不是一般性地假设在$G^{SCC}$中$C_u \leadsto C_v$。于是在$G$中必然存在
+    $\mathfrak{u}\in C_u$，$\mathfrak{v}\in C_v$，使得$\mathfrak{u} \leadsto \mathfrak{v}$。又由于
+    $u$和$\mathfrak{u}$均在连通分量$C_u$中，故$u \leadsto \mathfrak{u}$；同理，$\mathfrak{v} \leadsto v$。
+    于是$u \leadsto v$。
+    \medskip
+
+    \textit{引理2：}若分量图$G^{SCC}$的拓扑序$T[x_1,\cdots,x_n]$的任意相邻结点$x_k$，$x_{k+1}$在
+    $E^{SCC}$中有边$(x_k,x_{k+1})$，则$G^{SCC}$是半连通图。反之亦然。
+
+    证明：（1）拓扑序到半连通的证明：对于任意两个结点$x_u,x_v$，不是一般性地设定$u<v$，非常显然地存在这样的路径
+    $x_u,x_{u+1},\cdots,x_v$使得$x_u\leadsto x_v$，命题正向得证。\\
+    （2）半连通到拓扑序的证明：采用反证法，假设存在半连通图$G^{SCC}$，其分量图拓扑序列为$T[x_1,\cdots,x_n]$中存
+    在使得$(x_k,x_{k+1}) \notin E^{SCC}$成立的$x_k$，$x_{k+1}$。由于半连通性的要求，$x_k \leadsto x_{k+1}$
+    或$x_{k+1} \leadsto x_{k}$中至少一个成立。\\
+    $\bullet$ 若$x_k \leadsto x_{k+1}$成立，因为$(x_k,x_{k+1}) \notin E^{SCC}$，于是至少存在一个中间结点
+    $x_t$，$x_k \leadsto x_t \leadsto x_{k+1}$。\\
+    \qquad $\circ$ 若$t<k$：显然子路径$x_k \leadsto x_t$使得$x_k$必然属于$x_t$的前驱闭包，即拓扑序之中$x_k$必然在
+    $x_t$之前出现，这与$t<k$矛盾，故$t<k$的情况不成立。\\
+    \qquad $\circ$ 若$t>k+1$：显然子路径$x_{t} \leadsto x_{k+1}$使得$x_t$必然属于$x_{k+1}$的前驱闭包，即拓扑
+    序之中$x_t$必然在$x_{k+1}$之前出现，这与$t>k+1$矛盾，故$t>k+1$的情况不成立。\\
+    \qquad $\circ$ 上述两点可知$x_k \leadsto x_{k+1}$不成立。\\
+    $\bullet$ 若$x_{k+1} \leadsto x_k$成立，则$x_{k+1}$必然属于$x_{k}$的前驱闭包，即拓扑序之中$x_{k+1}$必然在
+    $x_{k}$之前出现，这与$k<k+1$矛盾，故$x_{k+1} \leadsto x_k$不成立。
+
+    综上反证假设不成立，命题反向得证。
+
+    \textbf{复杂度分析：}求解强连通分量的时间复杂度为$O(|V|+|E|)$；求解拓扑的复杂度为
+    $O(|V^{SCC}|+|E^{SCC}|)$，最坏不超过$O(|V|+|E|)$；判断相邻结点对在$G^{SCC}$中
+    是否有边复杂度亦为$O(|V^{SCC}|+|E^{SCC}|)$（对边建哈希表$O(|E^{SCC}|）$,遍历结点次数
+    为$O(|V^{SCC}|)$，每次$O(1)$。综上\proc{Is-Semiconnected}算法的复杂度为$O(|V|+|E|)$。
+\end{solution} 
