@@ -1,2 +1,100 @@
 \begin{solution}
+    \textbf{算法设计：}整体的算法如$\proc{Get-Negative-Cycle}$所示。首先对图$G$计算其全连通分量，
+    时间复杂度$O(V+E)$。对于每一个全连通分量的子图$C_i$，执行$\proc{Improved-Bellman-Ford}$
+    判断是否该全连通分量子图上是否有负权重的环（由于全连通分量保证内部点的连通性，可任意选取点作为源点），
+    如果存在负权重的环，利用各点的最短路的前驱结点信息进行深度优先遍历，找到负权重的环中的某一个点，最后
+    在利用这个已知环上的点得到整个负权重环。Bellman-Ford算法的时间复杂度是
+    $O(\Sigma V_iE_i) \le O(VE)$，深度优先遍历求负权重环的时间复杂度为$O(V+E)$，
+    故算法的整体复杂度为$O(VE)$。
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{330pt}
+            \begin{codebox}
+                \Procname{$\proc{Get-Negative-Cycle}(G,w)$}
+                \li $G^{SCC}=\proc{Strongly-Connercted-Components}(G)$
+                \li \For $C_i$ in $G^{SCC}.V$
+                    \Doo
+                \li     Let $r$ be a empty List
+                \li     Let $s_i$ be an random node in $C_i$
+                \li     \If not $\proc{Improved-Bellman-Ford}(C_i,w,s_i,r)$
+                        \Doo
+                \li         \Return $r$
+                        \End
+                    \End
+                \li \textbf{throw} \textbf{exception:} \textit{No negative cycle}
+            \end{codebox}
+        \end{minipage}
+    } 
+    \resizebox{\linewidth}{!}{
+        \begin{minipage}{330pt}
+            \begin{codebox}
+                \Procname{$\proc{Improved-Bellman-Ford}(G,w,s,r)$}
+                \li $\proc{Initialize-Single-Source}(G,s)$
+                \li \For $i=1$ \To $|G.V|$
+                    \Doo
+                \li     \For edge$(u,v)$ in $G.E$
+                        \Doo
+                \li         $\proc{Relax}(u,v,w)$
+                        \End
+                    \End
+                \li \For edge$(u,v)$ in $G.E$
+                    \Doo
+                \li     \If $v.d > u.d + w(u,v)$
+                        \Doo
+                \li         $r = \proc{Get-Negative-Cycle}(G)$
+                \li         \Return False
+                        \End
+                    \End
+                \li \Return True
+            \end{codebox}
+        \end{minipage}
+    }
+    \resizebox{\linewidth}{!}{
+        \begin{minipage}{330pt}
+            \begin{codebox}
+                \Procname{$\proc{Get-Negative-Cycle}(G)$}
+                \li Initialize $|G.V|$ size of array $S$ with $\textsf{ToVisit}$
+                \li \For $n$ in $G.V$
+                    \Doo
+                \li     $y = \proc{DFS}(n,G,S)$
+                \li     \If $y \neq$ null
+                        \Doo
+                \li         Let $r$ be a empty List
+                \li         $r.$add$(y)$
+                \li         $x = y.\pi$
+                \li         \While $x\neq y$
+                            \Doo
+                \li             $r.$add$(x)$
+                \li             $x = x.\pi$
+                            \End
+                \li         \Return $r$
+                        \End
+                    \End
+                \li \textbf{throw} \textbf{exception:} \textit{Get cycle failed}
+            \end{codebox}
+        \end{minipage}
+    }
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{330pt}
+            \begin{codebox}
+                \Procname{$\proc{DFS}(n,G,S)$}
+                \li \If $S[n] == \textsf{Visited}$ or $n.\pi ==$ null
+                    \Doo
+                \li     \Return null
+                    \End
+                \li \If $S[n] == \textsf{Visiting}$
+                    \Doo
+                \li     \Return $n$
+                    \End
+                \li $S[n] = \textsf{Visiting}$
+                \li $u = \proc{DFS}(n.\pi,G,S)$
+                \li $S[n] = \textsf{Visited}$
+                \li \Return u
+            \end{codebox}
+        \end{minipage}
+    }
+
+    % \textbf{复杂度分析：}
+
+    \textbf{证明：}
 \end{solution}
