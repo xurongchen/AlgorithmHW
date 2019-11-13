@@ -3,9 +3,9 @@
     时间复杂度$O(V+E)$。对于每一个全连通分量的子图$C_i$，执行$\proc{Improved-Bellman-Ford}$
     判断是否该全连通分量子图上是否有负权重的环（由于全连通分量保证内部点的连通性，可任意选取点作为源点），
     如果存在负权重的环，利用各点的最短路的前驱结点信息进行深度优先遍历，找到负权重的环中的某一个点，最后
-    在利用这个已知环上的点得到整个负权重环。Bellman-Ford算法的时间复杂度是
-    $O(\Sigma V_iE_i) \le O(VE)$，深度优先遍历求负权重环的时间复杂度为$O(V+E)$，
-    故算法的整体复杂度为$O(VE)$。
+    在利用这个已知环上的点得到整个负权重环。执行Bellman-Ford算法的总时间之和为
+    $O(\Sigma V_iE_i) \le O(VE)$，深度优先遍历求负权重环的时间复杂度为$O(V+E)$。\\
+    综上所述，算法的整体复杂度为$O(VE)$。
     \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
     \resizebox{\linewidth}{!}{ 
         \begin{minipage}{330pt}
@@ -25,6 +25,13 @@
             \end{codebox}
         \end{minipage}
     } 
+
+    $\proc{Improved-Bellman-Ford}$与一般性的Bellman-Ford算法的区别在于以下两个方面：\\
+    第一，$\proc{Relax}$的次数从
+    $|G.V|-1$次变为$|G.V|$次，这样保证如果存在负权重的环，图中所有点$p$以及其前驱$p.\pi$形成的边$(p,p.\pi)$
+    一定能形成上述的负权重环；\\
+    第二，除了返回是否存在负权重的环的结果（存在返回False），通过$\proc{Get-Negative-Cycle}$的调用，
+    参数$r$能够同时记录负权重环的所有结点。
     \resizebox{\linewidth}{!}{
         \begin{minipage}{330pt}
             \begin{codebox}
@@ -49,6 +56,12 @@
             \end{codebox}
         \end{minipage}
     }
+
+    $\proc{Get-Negative-Cycle}$首先初始化访问状态数组$S$（访问状态包括$\textsf{ToVisit}$、$\textsf{Visiting}$
+    以及$\textsf{Visited}$）。由于结点和其对应的前驱能够形成一个环（即所求的负权重环），对于所有结点进行深度优先遍历$\proc{DFS}$，
+    遍历过程之中同时更新各个结点的访问状态。$\proc{DFS}$过程之中，若发现某个结点的状态为$\textsf{Visiting}$，则说明该结点一定
+    在所求的负权重环之上，则返回该结点，并不断利用结点的前驱信息，构建整个负权重环。
+
     \resizebox{\linewidth}{!}{
         \begin{minipage}{330pt}
             \begin{codebox}
@@ -97,4 +110,27 @@
     % \textbf{复杂度分析：}
 
     \textbf{证明：}
+    证明分为以下3个步骤：\\
+    \textit{步骤1：}如果图$G$存在负权重的环，则对于$G$的某一个强连通分量$C_t$，并从$C_t$中任意选取结点$S_t\in C_t.V$执行
+    Bellman-Ford算法，则一定可以从中发现负权重的环的存在；\\
+
+    \qquad 对于$G$内一个负权重环，显然环上的所有点是连通的，即对$G$进行强连通分量的划分，这个负权重环上的所有点在同一个强连通
+    分量之上。如果Bellman-Ford算法返回False，则说明从源点出发存在到负权环的路径，而对于强连通分量，由于内部点是相互连通的，故
+    如果强连通分量内部存在负权环，则从任意点出发，Bellman-Ford算法均可返回False。
+
+    \textit{步骤2：}对于存在负权环的强连通子图$C_t$，对所有边执行$|G.V|$次$\proc{Relax}$操作得到原$C_t$的一个子图$M$
+    仍包含该负权环且不包含正权环，其中$M.V=C_t.V$，$M.E=\{edge(x,y) \mid y = x.\pi\wedge x,y \in C_t.V \}$；\\
+    
+    \qquad 根据结点的前驱$\pi$的含义可知，执行充分次数$\proc{Relax}$操作之后，$\pi$可以稳定。而因为环的长度一定不超过图中点的个数，因此至多执行
+    $|C_t.V|$次之后所有结点的前驱$\pi$可以稳定，并且对于负权环上的任意一个点，其前驱一定是其在环上的前驱。同时，$\proc{Relax}$无论执行多少次数
+    显然都不会引入正权重的环，于是若强连通子图$C_t$存在负权环，对应得到的$C_t$的子图$M$唯一地包含一个环即原$C_t$所包含的负权环。
+
+    \textit{步骤3：}对于子图$M$，如果$M$存在唯一的环即负权重的环，那么执行$\proc{Get-Negative-Cycle}$，可以得到负权重
+    环上的所有元素。\\
+
+    \qquad 对于$M$执行深度优先遍历，由于$M$存在环，显然若在某一结点$x$的前驱闭包之中发现$x$，说明$x$一定在环上（对应深度优先
+    遍历之中访问结点时发现结点的状态是$\textsf{Visiting}$）。对于环上任意的一个元素$x$，不断访问其前驱直至又一次遇到$x$
+    停止，显然可以正确地得到环上的所有元素。
+
+    综上所述，由步骤1、2、3，可以证明出算法的正确性。
 \end{solution}
