@@ -1,0 +1,22 @@
+\textit{\textbf{Yen's improvement to Bellman-Ford}}
+
+Suppose that we order the edge relaxations in each pass of the Bellman-Ford algorithm as follows. 
+Before the first pass, we assign an arbitrary linear order $\nu_1,\nu_2,\ldots,\nu_{|V|}$ to the 
+vertices of the input graph $G=(V,E)$. Then, we partition the edge set $E$ into $E_f \cup E_b$, 
+where $E_f = \{(\nu_i,\nu_j)\in E: i < j\}$ and $E_b = \{(\nu_i,\nu_j)\in E: i > j\}$. (Assume 
+that $G$ contains no self-loops, so that every edge is in either $E_f$ or $E_b$.) Define $G_f=(V,E_f)$ 
+and $G_b=(V,E_b)$.
+
+\textbf{a.} Prove that $G_f$ is acyclic with topological sort $\langle\nu_1,\nu_2,\ldots,\nu_{|V|}\rangle$ 
+and that $G_b$ is acyclic with topological sort $\langle\nu_{|V|},\nu_{|V|-1},\ldots,\nu_{1}\rangle$.
+
+Suppose that we implement each pass of the Bellman-Ford algorithm in the following way. We visit each 
+vertex in the order $\nu_1,\nu_2,\ldots,\nu_{|V|}$, relaxing edges of $E_f$ that leave the vertex. 
+We then visit each vertex in the order $\nu_{|V|},\nu_{|V|-1},\ldots,\nu_{1}$, relaxing edges of $E_b$ 
+that leave the vertex.
+
+\textbf{b.} Prove that with this scheme, if $G$ contains no negative-weight cycles that are reachable from the
+ source vertex $s$, then after only $\lceil|V|/2\rceil$ passes over the edges, $\nu.d = \delta(s,\nu$ 
+ for all vertices $\nu \in V$.
+
+\textbf{c.} Does this scheme improve the asymptotic running time of the Bellman-Ford algorithm?
