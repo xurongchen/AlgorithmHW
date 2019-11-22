@@ -1,2 +1,15 @@
 \begin{solution}
+    \textbf{a.}假设加入的新的边为$e(s,t)$。考虑结点$x,y$之间的连通性，若
+    $(x,y)\notin E^* \wedge (x,y)\in (E\cup \{e\})^*$，则有$(x,m)\in E^* \wedge (n,y) \in E^*$。
+    这样枚举每个结点$x,y$，若原先不连通，则检查$(x,m),(n,y)$的连通性，若均连通，则$(x,y)$属于新的传递闭包。
+    整体算法的复杂度在于枚举的$O(V^2)$。
+
+    \textbf{b.}假设图$G$的点构成的集合$V=\{v_1,v_2,\ldots,v_n\}$，边构成的集合为
+    $E=\{(v_{x},v_{x+1})\mid 1 \le x \le n-1\}$，则$E^*=\{(v_{x},v_{y})\mid 1\le x \le y\le n\}$。
+    若加入新边为$e(v_n,v_1)$，则$(E\cup\{e\})^*=\{(v_{x},v_{y})\mid 1\le x,y\le n\}$。
+    易得，$|E^*|=\frac{|V|^2+|V|}{2}$，$|(E\cup\{e\})^*|=|V|^2$，于是加入$e$之后需要更新的边的数目为
+    $\frac{|V|^2-|V|}{2}=\Omega(|V|^2)$。
+
+    \textbf{c.}
+
 \end{solution}
