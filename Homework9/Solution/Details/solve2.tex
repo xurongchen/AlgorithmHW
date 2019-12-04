@@ -1,2 +1,47 @@
-\begin{solution}
-\end{solution}
+\begin{proof}\ \\
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{380pt}
+            \begin{codebox}
+                \Procname{$\proc{Height-First-Discharge}(G,s,t)$}
+                \li $\proc{Initialize-Preflow}(G,s)$
+                \li \For each vertex $u\in G.V - \{s,t\}$\Doo
+                \li     $u.current = u.N.head$
+                    \End
+                \li $L = $ ordered linked list of vertex in $G$ by height decreasing
+                \li $u = L.Head$
+                \li \While $u\neq$ NIL \Doo
+                \li     $old\_height = u.Height$
+                \li     $\proc{Discharge}(u)$
+                \li     \If $old\_height < u.height$ \Doo
+                \li         Forward swap $u$ with the former node until the order is correct
+                \li     \Else 
+                \li         $u = u.Next$
+            \end{codebox}
+        \end{minipage}
+    }
+    \textbf{正确性证明：}由于是\proc{Push-Relabel}算法的一种实现，因此只需要证明如果算法能够终止，不能够继续\proc{Push}
+    和\proc{Relabel}，则算法一定可以得到最大流。下面证明在算法终止时不再存在溢出结点，\proc{Push}和\proc{Relabel}即
+    不能再适用。
+
+    首先，高度变化只可能在\proc{Relabel}中发生，因而行10保证了$L$的有序性。
+
+    在行6位置，对于当前访问的$u$，$L$中$u$之前位置不存在溢出结点。这是因为：
+    （1）初始状态显然满足；
+    （2）每次循环时，对于非溢出结点，执行\proc{Discharge}之后仍然是非溢出的。
+    对于溢出结点$u$，显然对于$u$之前的某一结点$v$由于$h(v)>=h(u)$，所以不存在$(u,v)$的\proc{Push}操作；而\proc{Relabel}
+    操作不改变结点是否溢出的性质。
+
+    于是算法终止时不再存在溢出结点，\proc{Push}和\proc{Relabel}不再适用，算法可以得到最大流。
+
+
+    \textbf{复杂度证明：}
+
+
+
+    % 已知\proc{Relabel-To-Front}算法的时间复杂度为$O(V^3)$，下面证明按照\proc{Relabel-To-Front}算法执行
+    % \proc{Discharge}的结点亦是当前最高的溢出结点。
+
+    % 初始状态：所有的溢出结点的高度均为0，故\proc{Relabel-To-Front}执行的结点是最高的
+
+\end{proof}
