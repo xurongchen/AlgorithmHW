@@ -36,12 +36,21 @@
 
 
     \textbf{复杂度证明：}
+    考虑相邻两次的\proc{Relabel}操作之间的间隔，由于\proc{Push-Relabel}算法的\proc{Relabel}次数是$O(V^2)$的，而两次
+    相邻的\proc{Relabel}之间调用不超过$V$次\proc{Discharge}操作。这是因为：如果\proc{Discharge}不调用\proc{Relabel}，
+    必然$u$会在$L$中后续遍历，次数至多为$V$次；如果\proc{Discharge}调用\proc{Relabel}，则当前相邻两次的\proc{Relabel}
+    间隔长度计数立即停止；于是相邻的\proc{Relabel}之间\proc{Discharge}调用不超过$V$次。即行7、12执行次数$O(V^3)$，每次
+    复杂度$O(1)$，故复杂度$O(V^3)$。又由于\proc{Relabel}次数是$O(V^2)$的，所以行10执行次数$O(V^2)$，每次执行最多遍历$V$，
+    于是复杂度$O(V^3)$。
 
+    对于\proc{Discharge}内部的行为：$O(V^2)$次\proc{Relabel}操作，每次至多遍历所有相邻结点得到更新height的目标值，故复杂
+    度$O(V^3)$；对于\proc{Discharge}中$u.current$的更新，对于每个结点$u$每次\proc{Relabel}，至多更新$u.current$指针
+    $degree(u)<V$次，于是复杂度$O(V^3)$；对于\proc{Discharge}中的\proc{Push}操作，由结点高度不超过$2|V|$，可知饱和推送
+    不超过$O(V^2E)$次，而每次\proc{Discharge}至多一次非饱和推送（会使得结点不再溢出而终止\proc{Discharge}），于是非饱和推
+    送次数等于\proc{Discharge}上限$O(V^3)$。
 
-
+    综上算法复杂度$O(V^3)$。
     % 已知\proc{Relabel-To-Front}算法的时间复杂度为$O(V^3)$，下面证明按照\proc{Relabel-To-Front}算法执行
     % \proc{Discharge}的结点亦是当前最高的溢出结点。
-
     % 初始状态：所有的溢出结点的高度均为0，故\proc{Relabel-To-Front}执行的结点是最高的
-
 \end{proof}
