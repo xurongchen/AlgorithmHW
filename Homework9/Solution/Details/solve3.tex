@@ -1,2 +1,41 @@
-\begin{solution}
+\begin{solution}    
+    % \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    % \resizebox{\linewidth}{!}{ 
+    %     \begin{minipage}{380pt}
+    %         \begin{codebox}
+    %             \Procname{$\proc{Minimun-Path-Cover}(G)$}
+    %             \li $G'=(V',E')$ \\\Doo
+    %                 \textit{in which:} $V' =\{x_0,x_1,\ldots,x_n\}\cup \{y_0,y_1,\ldots,y_n\}$,\\\Doo
+    %                 $E' =\{(x_0,x_i):i\in V\}\cup \{(y_i,y_0):i\in V\}\cup (x_i,y_j):(i,j)\in E$
+    %                 \End \End
+    %             \li $\forall (u,v) \in E'$ set the capacity $G'.c(u,v) = 1$
+    %             \li $\proc{Max-Flow}(G,x_0,y_0)$
+    %             \li \
+
+    %             \li \For each vertex $u\in G.V - \{s,t\}$\Doo
+    %             \li     $u.current = u.N.head$
+    %                 \End
+    %             \li $L = $ ordered linked list of vertex in $G$ by height decreasing
+    %             \li $u = L.Head$
+    %             \li \While $u\neq$ NIL \Doo
+    %             \li     $old\_height = u.Height$
+    %             \li     $\proc{Discharge}(u)$
+    %             \li     \If $old\_height < u.height$ \Doo
+    %             \li         Forward swap $u$ with the former node until the order is correct
+    %             \li     \Else 
+    %             \li         $u = u.Next$
+    %         \end{codebox}
+    %     \end{minipage}
+    % }
+    \textbf{a.} 对于图G',对于每条边的容量设置为1，执行从$x_0$到$y_0$的最大流算法。对于得到的最大流$f$，如果$f(x_i,y_j)=1$，即在原图
+    $G$之中，边$(i,j)$存在于最小路径覆盖集合中的某一个路径之上。
+
+    正确性证明：在不考虑环的情况下，最小路径覆盖必然对应选出最多的边，且这些边没有共同的初始结点或没有结束的初始结点。
+    首先$f(x_0,x_i)=1$保证了没有共同的初始结点，对应的$f(y_j,y_0)=1$保证了没有共同的结束结点。于是要使得选出最多的边，即求
+    图$G'$中最大的流。
+
+    \textbf{b.} 不能适用于带环的图。存在$G$满足$V=\{1,2,3\}$，$E=\{(1,2),(2,$ $1),(2,3)\}$。显然$G'$一个可行的最大流
+    包括$(x_0,x_1),(x_0,x_2),(x_1,y_2),$ $(x_2,y_1),(y_1,y_0),(y_2,y_0)$。显然对应选出的边为$(1,2),(2,1)$，并不能够同时
+    属于一个可行的最小路径覆盖，因为存在结点成环的情况。
+
 \end{solution}
