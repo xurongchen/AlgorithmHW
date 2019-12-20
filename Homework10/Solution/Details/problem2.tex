@@ -1,0 +1,39 @@
+\textbf{String matching based on repetition factors}
+Let $y^i$ denote the concatenation of string $y$ with itself $i$ times. For example,
+$(ab)^3 = ababab$. We say that a string $x\in \Sigma$ has \textbf{repetition factor}
+$r$ if $x = y^r$ for some string $y\in \Sigma$ and some $r > 0$. Let $\rho(x)$ denote 
+the largest $r$ such that $x$ has repetition factor $r$.
+
+\textbf{a.} Give an efficient algorithm that takes as input a pattern $P[1\ldots m]$ and
+computers the value $\rho(P_i)$ for $i = 1,2,\ldots,m$. What is the running time of your 
+algorithm?
+
+\textbf{b.} For any pattern $P[1\ldots m]$, let $\rho^*(P)$ be defined as $\max_{1\le i\le m}\rho(P)$.
+Prove that if the pattern $P$ is chosen randomly from the set of all binary string of 
+length $m$, then the expected value of $\rho^*(P)$ is $O(1)$.
+
+\textbf{c.} Argue that the following string-matching algorithm correctly finds all 
+occurences of pattern $P$ in a text $T[1\ldots n]$ in time $O(\rho^*(P)n+m)$
+
+\newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+
+\begin{codebox}
+    \Procname{$\proc{Repetition-Matcher}(P, T)$}
+    \li $m = P.length$
+    \li $n = T.length$
+    \li $k = 1 + \rho^*(P)$
+    \li $q = 0$
+    \li $s = 0$
+    \li \While $s \le n - m$
+        \Doo 
+    \li     \If $T[s + q + 1] == P[q + 1]$
+            \Doo
+    \li         $q = q + 1$
+    \li         \If $q == m$
+                \Doo
+    \li             print "Pattern occurs with shift" s \End\End
+    \li     \If $q == m$ or $T[s + q + 1] \neq P[q + 1]$
+            \Doo
+    \li         $s = s + \max(1, \lceil q / k\rceil)$
+    \li         $q = 0$
+\end{codebox}

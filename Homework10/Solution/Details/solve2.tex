@@ -1,0 +1,48 @@
+\begin{solution}
+\textbf{a.}
+首先计算出$c = m-\pi(m)$。检查$m$是否是$c$的倍数且
+对于任意整数$k>0,kc\le i$，是否$\pi(kc) = (k-1)c$均成立，
+若满足则有$\rho(P_i) = \frac{i}{c}$。
+否则$\rho(P_i) = 1$。
+
+复杂度在于预处理$\pi$和对于$k$的循环，显然是$O(m)$的。
+
+\textbf{b.}
+对于长度为$m$的01串，一共有$2^m$种。
+考虑$\rho^*(P) = k$的必要条件：$P=(x_1,x_2,\ldots x_{m/k})^k$，一共有$2^{m/k}$种。 
+
+记$\mathcal{P}$代表概率，$\mathcal{E}$代表数学期望。
+
+于是$\mathcal{P}(\rho^*(P)=k) \le \frac{2^{m/k}}{2^m}$（即允许部分重复计算）。
+
+故$$\mathcal{E}(\rho^*(P)) \le \sum_{\frac{m}{k} \in \mathbb{Z} } k\frac{2^{m/k}}{2^m} $$
+做一个小小的代换：
+\begin{align*}
+    \mathcal{E}(\rho^*(P)) \le& \sum_{t \text{ is factor of } m} (\frac{m}{t})\times\frac{2^t}{2^m}\\
+    \le& \sum_{t=1}^m (\frac{m}{t})\times\frac{2^t}{2^m}\\
+    =& \sum_{t=1}^{m/2} (\frac{m}{t})\times\frac{2^t}{2^m}+\sum_{t=m/2+1}^{m} (\frac{m}{t})\times\frac{2^t}{2^m}
+\end{align*}
+分别对两部分进行评估。
+
+前一半：
+\begin{align*}
+    \sum_{t=1}^{m/2} (\frac{m}{t})\times\frac{2^t}{2^m} \le \frac{m}{2}\times m\times\frac{1}{2^{m/2}} = O(1)
+\end{align*}
+后一半：
+\begin{align*}
+    \sum_{t=m/2+1}^{m} (\frac{m}{t})\times\frac{2^t}{2^m} &\le 2\sum_{t=m/2+1}^{m} \frac{2^t}{2^m} \\
+    &= 2\sum_{i=0}^{m/2-1} (\frac{1}{2})^i\\
+    &= 2\cdot \frac{1-(1/2)^{m/2}}{1-1/2} < 4 = O(1)
+\end{align*}
+于是$\mathcal{E}(\rho^*(P)) = O(1)$
+
+\textbf{c.}
+正确性：
+\begin{proof}
+    如果将算法第12行替换为$s=s+1$，此时算法等价于暴力字符串匹配的一个实现，可以保证算法是正确的。
+
+    于是我们的证明目标是，引入第12行之后，算法仍然是正确的。即若$1<u<\lceil q / k\rceil$，则$T[s+u+1\ldots s+u+m]\neq P[1\ldots m]$。
+\end{proof}
+复杂度分析：
+
+\end{solution}

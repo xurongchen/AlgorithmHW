@@ -1,0 +1,52 @@
+\begin{solution}
+    首先$O(m)$地计算$P$的前缀函数$\pi$。
+    然后初始化$\delta$为0，再外层从$0$到$m$循环$q$，内层循环$\Sigma$中每个字母$a$，若
+    \begin{enumerate}
+        \item $q < m \wedge P[q+1] = a$，则$\delta(q,a) = q+1$；
+        \item $q = m \vee P[q+1] \neq a$，则$\delta(q,a) = \delta(\pi(q),a)$；
+    \end{enumerate}
+    \begin{proof}
+
+            % (a) 根据自动机状态的定义，该式显然成立；
+            % (b) 
+            
+            根据自动机状态的定义，自动机状态编号即为相同的$T$的后缀在$P$前缀上匹配的最大长度，
+            因此假设集合$F(q,a)=\{k\mid P_k \sqsupset P_q \wedge P[k+1] = a\}$ 
+            我们希望证明：
+            $$\delta(q,a) = \max_k F(q,a) \text{ if } F \neq \emptyset \text{ else } 0$$
+            
+            对$q$进行归纳：
+            
+            (1)初始，$\delta(0,x)=0 \text{ if } x \neq P[1] \text{ else } 1$，由
+            (a)和初始化条件，显然成立。
+            
+            (2) 假设对$q<q_0$成立，考虑$F(q,a)$的等价表示：
+            $F(q,a)=\{k\mid P_k \sqsupset P_q \wedge P[k+1] = a\} = \{k\mid k \in \pi^*(q) \wedge P[k+1] = a\}$
+
+            若$q < m \wedge P[q+1] = a$，显然$\max F(q,a) = q$，于是$\delta(q,a) = q+1$；
+            若$q = m \vee P[q+1] \neq a$，显然$q \notin F(q,a)$，于是$F(q,a) = \max\{k\mid k \in \pi^*(q) \wedge P[k+1] = a\}=\max\{k\mid k \in \pi^*(\pi(q)) \wedge P[k+1] = a\}=\delta(\pi(q),a)$
+
+           综上(a)、(b)得证。
+            % 根据$q$的长度进行归纳：
+            % % $\delta(\pi(q),a) = \pi(q)+1$
+            
+            % 初始$q=0$，显然成立；\\
+            % % 假设$q<q_0$成立：
+            % 由于$P_{\pi(q)}\sqsupset P_q$，于是$P_{\pi(q)}a\sqsupset P_qa$，又
+            % $\delta(q,a) = \sigma(P_qa) = \max\{k\mid P_k \sqsupset P_qa\}$。
+            % 因此，$\delta(\pi(q),a)\in \{k\mid P_k \sqsupset P_qa\}$。
+
+            % 下面证明是最大的。
+
+            % 由于以$a$结尾，不妨设存在另一个最大的$\delta(l,a)>\delta(\pi(q),a)$，且$P_la \sqsupset P_qa$。
+            % 显然，$l$满足$l\in\{l\mid l<q \wedge P_l\sqsupset P_q\}$，
+            % 由于$l>\delta(l,a)-1>\delta(\pi(q),a)$
+
+            % 于是$\pi(q) = \max\{t\mid t<q \wedge P_t\sqsupset P_q\} = \max\{t\mid t<q \wedge P_ta\sqsupset P_qa\} = $
+            
+            % 由于$q = m \vee P[q+1] \neq a$，故$\sigma(P_qa) < P_q + 1 = q + 1$。
+            % 而$\pi(q) = \max\{t\mid t<q \wedge P_t\sqsupset P_q\} = \max\{t\mid t<q \wedge P_ta\sqsupset P_qa\} = $，
+            % 假设最值为$t_m$，
+            % 则$P_{t_m}\sqsupset P_q$
+    \end{proof}
+\end{solution}
