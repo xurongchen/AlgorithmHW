@@ -1,0 +1,70 @@
+\begin{solution}算法如\proc{Fast-Greedy-Set-Cover}所示。
+    
+    初始化阶段，第一是初始化元素数规模的
+    桶，并将所有的集合按照内部元素个数放在对应下标的桶之中，注意桶内各个集合之间采用双向循环链表
+    连接（行9）。第二是对于每个元素，我们记录它在那些集合之中出现过（行7），并且初始化每个元素的
+    访问状态为未访问（行8）。
+
+    然后自大到小遍历各个桶。若桶不为空，则取出首个集合，将其放到解$\mathcal{L}$之中，从桶中去除该集合。对于集合中的每个元素，
+    若未曾访问过，对于所有该元素出现过的集合a，若集合a在桶b之中，则将其移动到桶b-1之中。
+
+    正确性：显然，根据算法过程，每个集合所在的桶的下标即为该集合含有的还未覆盖的点的个数，由于我们自大到小遍历
+    桶，这保证了每次取出的都是最大的未覆盖点的个数的集合，这和\proc{Greedy-Set-Cover}一致。
+
+    时间复杂度：算法5-9行，对于$\mathcal{F}$中每个$S$的每个元素进行遍历，复杂度为$O(\sum_{S\in \mathcal{F}}|S|)$。
+    注意到算法进入12行最多$|\mathcal{F}|$次（每个$S$访问即移除，故至多$|\mathcal{F}|$次）。对于每次进入，
+    12-14行都是$O(1)$的，15-16行至多执行$|S|$次。
+
+    考虑到算法16行进入条件和17行的赋值，对于每个元素16-22行至多执行1次。对于每个元素$e$第18行至22行至多执行$e$出现在的集合的个数
+    次$c_e$，注意到以下等式的成立：$\sum_{e} c_e = \sum_{S\in \mathcal{F}} |S|$，于是第18行至22行总的执行次数为$O(\sum_{S\in \mathcal{F}} |S|)$。
+    对于21行和22行的复杂度，只需要对于每个集合维护一个指向其的指针即可知道其存在于哪一个桶之中，于是21、22行复杂度$O(1)$。
+
+    综上所述，算法\proc{Fast-Greedy-Set-Cover}的时间复杂度为$O(\sum_{S\in \mathcal{F}} |S|)$。
+    
+    \newcommand{\Doo}{\>\textbf{}\hspace*{-0.7em}\'\addtocounter{indent}{1}}
+    
+    \resizebox{\linewidth}{!}{ 
+        \begin{minipage}{380pt}
+        \begin{codebox}
+        \Procname{$\proc{Fast-Greedy-Set-Cover}(X,\mathcal{F})$}
+        \li Initialize $\id{bucket}[0..|X|]$ with empty bucket
+        \li Initialize $\id{elemExist}$ as a hashset from element in $X$ 
+        to a list of sets in $\mathcal{F}$
+        \li Initialize $\id{elemVisited}$ as a hashset from element in $X$
+        to bool
+        \li Initialize $\mathcal{L}$ with an empty list
+        \li \textbf{foreach} $S$ \textbf{in} $\mathcal{F}$
+            \Doo 
+        \li     \textbf{foreach} $\id{elem}$ \textbf{in} $S$
+                \Doo
+        \li         $\id{elemExist}[elem].add(S)$
+        \li         $\id{elemVisited}[elem]=$ false
+            \End
+        \li     put $S$ into $\id{bucket}[|S|]$
+            \End
+        \li \For $i = |X|$ to 1
+            \Doo 
+        \li     \While $\id{bucket}[i]$ is not empty
+                \Doo
+        \li         $top = \id{bucket}[i].first$
+        \li         $L.add(top)$
+        \li         pop $top$ from its bucket
+        \li         \textbf{foreach} $\id{elem}$ \textbf{in} $top$\Doo
+        \li         \If $\id{elemVisited}[\id{elem}] ==$ false
+                    \Doo
+        \li             $\id{elemVisited}[\id{elem}] =$ true
+        \li             \textbf{foreach} $\id{set}$ \textbf{in} $\id{elemExist}[elem]$
+                            \Doo
+        \li                 \If $\id{set}$ is not in any bucket\Doo
+        \li                     \textbf{continue}\End
+        \li                 pop $\id{set}$ from its bucket (Suppose $bucket[b]$)
+        \li                 put $\id{set}$ into $\id{bucket}[b-1]$
+        \End
+        \End
+        \End
+        \End\End
+        \li \Return $\mathcal{L}$
+    \end{codebox}
+    \end{minipage}
+    }
+\end{solution}
